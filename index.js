@@ -79,8 +79,12 @@ function getDiv(){
 }
 
 function addToCart(item){
-  
-  state.cart.push(item)
+  const cartItem = state.cart.find(e => e.name == item.name)
+  if (cartItem) cartItem.quantity++
+  else {
+    item.quantity = 1
+    state.cart.push(item)
+  }
   renderCart()
 }
 
@@ -101,14 +105,19 @@ function getImage(item){
 function renderCart() {
   cart.innerHTML = ""
   for(let i=0;i<state.cart.length;i++){
+    refreshCart()
     const li = getCartListItem(state.cart[i])
-    cart.appendChild(li)
+    cart.appendChild(li) 
   }
+}
+
+function refreshCart(){
+  state.cart = state.cart.filter(e => e.quantity > 0)
 }
 
 function getCartListItem(item){
   const li = document.createElement("li")
-  li.append(getImage(item), getParagraph(item.name), getRemoveButton(), getSpan(),getAddButton())
+  li.append(getImage(item), getParagraph(item.name), getRemoveButton(item), getSpan(item.quantity),getAddButton(item))
   return li
 }
 
@@ -118,24 +127,36 @@ function getParagraph(text){
   return p
 }
 
-function getRemoveButton(){
+function getRemoveButton(item){
   const button = document.createElement('button')
   button.classList.add("quantity-btn","remove-btn","center")
   button.innerText = "-"
+  button.addEventListener('click', function(){decreaseQuantityofCart(item)})
   return button
 }
 
-function getAddButton(){
+function decreaseQuantityofCart(item){
+  item.quantity--
+  renderCart()
+}
+
+function getAddButton(item){
   const button = document.createElement('button')
   button.classList.add("quantity-btn","add-btn","center")
   button.innerText = "+"
+  button.addEventListener("click", function(){increaseQuantityOfCart(item)})
   return button
 }
 
-function getSpan(){
+function increaseQuantityOfCart(item){
+  item.quantity++
+  renderCart()
+}
+
+function getSpan(quantity){
   const span = document.createElement('span')
   span.classList.add("quantity-text","center")
-  span.innerText = 1
+  span.innerText = quantity
   return span
 }
 
