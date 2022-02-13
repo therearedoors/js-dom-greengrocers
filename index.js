@@ -3,51 +3,61 @@ const state = {
     {
       id: "001-beetroot",
       name: "beetroot",
+      type: "vegetable",
       price: 0.35
     },
     {
       id: "002-carrot",
       name: "carrot",
+      type: "vegetable",
       price: 0.35
     },
     {
       id: "003-apple",
       name: "apple",
+      type: "fruit",
       price: 0.35
     },
     {
       id: "004-apricot",
       name: "apricot",
+      type: "fruit",
       price: 0.35
     },
     {
       id: "005-avocado",
       name: "avocado",
+      type: "fruit",
       price: 0.35
     },
     {
       id: "006-bananas",
       name: "bananas",
+      type: "fruit",
       price: 0.35
     },
     {
       id: "007-bell-pepper",
       name: "bell pepper",
+      type: "vegetable",
       price: 0.35
     },
     {
       id: "008-berry",
       name: "berry",
+      type: "fruit",
       price: 0.35
     },
     {
       id: "009-blueberry",
       name: "blueberry",
+      type: "fruit",
       price: 0.35
     },
     {
       id: "010-eggplant",
       name: "eggplant",
+      type: "vegetable",
       price: 0.35
     }
   ],
@@ -58,31 +68,21 @@ const store = document.querySelector(".store--item-list")
 const cart = document.querySelector(".cart--item-list")
 const total = document.querySelector(".total-number")
 const sorter = document.querySelector("#sorter")
+const showAll = document.querySelector("#filter--all")
+const showFruits = document.querySelector("#filter--fruit")
+const showVeg = document.querySelector("#filter--veg")
+let filtering = state.items
 sorter.addEventListener("click", renderSorting)
+showAll.addEventListener("click", function(){
+  filtering = state.items
+  renderStore(state.items)})
+showFruits.addEventListener("click", function(){renderFiltering("fruit")})
+showVeg.addEventListener("click", function(){renderFiltering("vegetable")})
 
-function renderSorting(){
-  if (sorter.innerText == "SORT A-Z")
-  {
-  state.items.sort((a,b)=> alphabeticly(a,b))
-  sorter.innerText = "SORT Z-A"
-  }
-  else if (sorter.innerText == "SORT Z-A"){
-    state.items.reverse()
-    sorter.innerText = "SORT A-Z"
-  }
-  renderStore()
-}
-
-function alphabeticly(a,b){
-  if (a.name < b.name) return -1
-  if (a.name == b.name) return 0
-  if (a.name > b.name) return 1
-}
-
-function renderStore(){
+function renderStore(items){
   store.innerHTML = ""
-  for(let i=0;i<state.items.length;i++){
-    store.append(getStoreListItem(state.items[i]))
+  for(let i=0;i<items.length;i++){
+    store.append(getStoreListItem(items[i]))
   }
 }
 
@@ -194,4 +194,28 @@ function getSpan(quantity){
   return span
 }
 
-renderStore()
+function renderSorting(){
+  if (sorter.innerText == "SORT A-Z")
+  {
+  filtering.sort((a,b)=> alphabeticly(a,b))
+  sorter.innerText = "SORT Z-A"
+  }
+  else if (sorter.innerText == "SORT Z-A"){
+    filtering.reverse()
+    sorter.innerText = "SORT A-Z"
+  }
+  renderStore(filtering)
+}
+
+function alphabeticly(a,b){
+  if (a.name < b.name) return -1
+  if (a.name == b.name) return 0
+  if (a.name > b.name) return 1
+}
+
+function renderFiltering(type){
+  filtering = state.items.filter(e => e.type === type)
+  renderStore(filtering)
+}
+
+renderStore(state.items)

@@ -53,9 +53,19 @@ button {
   height: 125px;
 }
 
+#sorter {
+  position: absolute;
+  top: 3rem;
+  left: 3rem;
+}
+
 @media only screen and (max-width: 600px) {
   .store--item-list {
     grid-template-columns: repeat(3, 125px);
+  }
+  #sorter{
+  top: 1rem;
+  left: 1rem;
   }
 }
 
