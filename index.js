@@ -56,6 +56,7 @@ const state = {
 
 const store = document.querySelector(".store--item-list")
 const cart = document.querySelector(".cart--item-list")
+const total = document.querySelector(".total-number")
 
 function renderStore(){
   for(let i=0;i<state.items.length;i++){
@@ -107,8 +108,19 @@ function renderCart() {
   for(let i=0;i<state.cart.length;i++){
     refreshCart()
     const li = getCartListItem(state.cart[i])
-    cart.appendChild(li) 
+    cart.appendChild(li)
+    updateTotal()
   }
+}
+
+function updateTotal() {
+  total.innerText = '£' + calcTotal().toFixed(2)
+}
+
+function calcTotal(){
+ return state.cart.reduce((a,b)=> {
+   return (a+(b.price*b.quantity))
+  }, 0.00)
 }
 
 function refreshCart(){
