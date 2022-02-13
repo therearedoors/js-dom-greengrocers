@@ -57,8 +57,30 @@ const state = {
 const store = document.querySelector(".store--item-list")
 const cart = document.querySelector(".cart--item-list")
 const total = document.querySelector(".total-number")
+const sorter = document.querySelector("#sorter")
+sorter.addEventListener("click", renderSorting)
+
+function renderSorting(){
+  if (sorter.innerText == "SORT A-Z")
+  {
+  state.items.sort((a,b)=> alphabeticly(a,b))
+  sorter.innerText = "SORT Z-A"
+  }
+  else if (sorter.innerText == "SORT Z-A"){
+    state.items.reverse()
+    sorter.innerText = "SORT A-Z"
+  }
+  renderStore()
+}
+
+function alphabeticly(a,b){
+  if (a.name < b.name) return -1
+  if (a.name == b.name) return 0
+  if (a.name > b.name) return 1
+}
 
 function renderStore(){
+  store.innerHTML = ""
   for(let i=0;i<state.items.length;i++){
     store.append(getStoreListItem(state.items[i]))
   }
