@@ -53,10 +53,27 @@ button {
   height: 125px;
 }
 
+.filter {
+  position: absolute;
+  top: 4rem;
+}
+
+#filter--all {
+  left: 1rem;
+}
+
+#filter--fruit {
+  left: 6rem;
+}
+
+#filter--veg {
+  left: 11.75rem;
+}
+
 #sorter {
   position: absolute;
-  top: 3rem;
-  left: 3rem;
+  top: 1.5rem;
+  left: 6.7rem;
 }
 
 @media only screen and (max-width: 600px) {
@@ -67,6 +84,22 @@ button {
   top: 1rem;
   left: 1rem;
   }
+
+  #filter--all {
+    top: 3.5rem;
+    left: 1rem;
+  }
+  
+  #filter--fruit {
+    top:6rem;
+    left: 1rem;
+  }
+  
+  #filter--veg {
+    top:8.5rem;
+    left: 1rem;
+  }
+
 }
 
 @media only screen and (max-width: 450px) {
